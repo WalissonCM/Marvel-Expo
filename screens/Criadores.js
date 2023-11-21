@@ -1,7 +1,7 @@
 import { ScrollView, View, StyleSheet } from 'react-native'
 import { Card, Text } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
-import Api from './services/Api'
+import Api from '../services/Api'
 
 
 export default function Criadores() {
@@ -29,7 +29,7 @@ export default function Criadores() {
         key={item.id}
         style={styles.card}
       >
-       <Card.Cover style={{width: 100, height: 100}}  source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}}/>
+       <Card.Cover style={{width: 100, height: 100}}  source={{uri : item.thumbnail.path + '.' + item.thumbnail.extension}}/>
         <Card.Content>
           <Text>{item.name}</Text>
         </Card.Content>

@@ -1,7 +1,7 @@
 import { ScrollView, View, StyleSheet } from 'react-native'
 import { Card, Searchbar, Text } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
-import Api from './services/Api'
+import Api from '../services/Api'
 
 
 export default function Personagens() {
@@ -29,7 +29,7 @@ export default function Personagens() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+  {/*  useEffect(() => {
       setLoading(true);
       Api.get(`characters?offset=${page * 100}`)
         .then((response) => response.json())
@@ -37,24 +37,32 @@ export default function Personagens() {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     })
-             
+    */}         
 
 
   return (
  
     <View style={{ flex: 1 , backgroundColor: 'red' }}>
       <Text style={styles.text}>Personagens</Text>
-      <Searchbar style={{margin: 10}} placeholder ="Pesquisar" onChangeText={setPesquisar} value={pesquisar} onIconPress={handlePesquisar}/>
+      <Searchbar style={styles.search} 
+                 theme={{colors:{ primary: 'white'}}} 
+                 iconColor="white" rippleColor={"white"}
+                 placeholder="Pesquisar" 
+                 placeholderTextColor="white" 
+                 inputStyle={{color: 'white'}} 
+                 onChangeText={setPesquisar} 
+                 value={pesquisar} 
+                 onIconPress={handlePesquisar}/>
     
-    <ScrollView 
-    data={data}
+    <ScrollView> 
+   {/*  data={data}
     numColumns={2}
     onEndReached={() => setPage(page + 1)}
     onEndReachedThreshold={0.1}
     refreshing={loading}
     onRefresh={() => setPage(1)}
     >   
-      
+    */}  
       <View style={styles.container}>
       
       {personagens.map(item => (
@@ -97,6 +105,12 @@ const styles = StyleSheet.create({
     width: 100, 
     height: 50, 
     margin: 5 
+  },
+  search: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    backgroundColor: 'black',
   }
   
 })

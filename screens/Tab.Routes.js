@@ -12,38 +12,43 @@ const Tab = createBottomTabNavigator();
 export default function TabRoutes() {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Home'         
             screenOptions={{
-                headerShown: false
-            }}
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarStyle: {
+                    backgroundColor: 'black',
+                    borderTopColor: 'black',  
+                }        
+            }}         
         >
 
             <Tab.Screen
-                name='Personagens'
+                name="Personagens"  
                 component={Personagens}
-                options={{
+                options={{ 
                     tabBarIcon: () =>
                     (
-                        <MaterialCommunityIcons name="format-align-left" size={26} />
+                        <MaterialCommunityIcons name="format-align-left" color="white" size={26} />
                       ), 
                 }}
             />
                 <Tab.Screen
-                    name='Quadrinhos'
+                    name="Quadrinhos"
                     component={Quadrinhos}
                     options={{
                         tabBarIcon: () =>  (
-                            <MaterialCommunityIcons name="book-open-page-variant" size={26} />
+                            <MaterialCommunityIcons name="book-open-page-variant" color="white" size={26} />
                           ),
                     }}
                 />
 
                 <Tab.Screen
-                    name='Criadores'
+                    name="Criadores"
                     component={Criadores}
                     options={{
                         tabBarIcon: () =>  (
-                            <MaterialCommunityIcons name="book-open-page-variant" size={26} />
+                            <MaterialCommunityIcons name="book-open-page-variant" color="white" size={26} />
                           ),
                     }}
                 />

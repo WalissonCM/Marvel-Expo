@@ -1,7 +1,7 @@
 import { ScrollView, View, StyleSheet} from 'react-native'
 import { Card, Text } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
-import Api from './services/Api'
+import Api from '../services/Api'
 
 export default function Quadrinhos() {
 
