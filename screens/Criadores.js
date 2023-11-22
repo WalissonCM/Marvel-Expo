@@ -9,7 +9,7 @@ export default function Criadores() {
     const [criadoress, setCriadores] = useState([])
 
     useEffect(() => {
-        Api.get('creators')
+        Api.get('stories')
         .then(response => {
             setCriadores(response.data.data.results)
         })
@@ -29,7 +29,7 @@ export default function Criadores() {
         key={item.id}
         style={styles.card}
       >
-       <Card.Cover style={{width: 100, height: 100}}  source={{uri : item.thumbnail.path + '.' + item.thumbnail.extension}}/>
+       <Card.Cover style={{width: 100, height: 100}}  source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}}/>
         <Card.Content>
           <Text>{item.name}</Text>
         </Card.Content>
