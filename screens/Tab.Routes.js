@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Personagens from './Personagens';
 import Quadrinhos from './Quadrinhos';
-import Criadores from './Criadores';
+import Quiz from './Quiz';
 
 
 
@@ -44,11 +44,11 @@ export default function TabRoutes() {
                 />
 
                 <Tab.Screen
-                    name="Criadores"
-                    component={Criadores}
+                    name="Quiz"
+                    component={Quiz}
                     options={{
                         tabBarIcon: () =>  (
-                            <MaterialCommunityIcons name="book-open-page-variant" color="white" size={26} />
+                            <MaterialCommunityIcons name="comment-question" color="white" size={26} />
                           ),
                     }}
                 />
