@@ -1,12 +1,18 @@
-import { ScrollView, View, StyleSheet, FlatList } from 'react-native'
-import { Card, Searchbar, Text } from 'react-native-paper'
+import { View, StyleSheet, FlatList } from 'react-native'
+import { ActivityIndicator, Card, Searchbar, Text } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
-import Api from '../services/Api'
+import Api from '../../services/Api'
+import { useFonts } from 'expo-font'
 
-export default function Quadrinhos() {
+export default function Quadrinhos({ navigation }) {
+
+  const [fontsLoaded] = useFonts({
+    'Adventure': require('../../assets/fonts/Adventure.otf'),
+  })
 
     const [quadrinhos, setQuadrinhos] = useState([])
-    const [offset, setOffset] = useState(20)
+    const [offset, setOffset] = useState(100)
+    const [loading, setLoading] = useState(false)
     
     const img_default = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
     
@@ -20,10 +26,23 @@ export default function Quadrinhos() {
       // setLoading(true)
       Api.get('comics')
       .then(response => {
-        const respostaPersonagens = response.data.data.results
-        const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
-        setQuadrinhos(personagensFiltrados)
+        const respostaQuadrinhos = response.data.data.results
+        const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
+        setQuadrinhos(quadrinhosFiltrados)
           // setLoading(false)
+        })
+    }
+
+    const loadMoreData = () => {
+      setLoading(true)
+      Api.get('comics?offset=' + offset)
+        .then(response => {
+          const respostaQuadrinhos = response.data.data.results
+          const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
+          setQuadrinhos([...quadrinhos, ...quadrinhosFiltrados])
+          setOffset(offset + 100)
+          setLoading(false)
+  
         })
     }
 
@@ -31,15 +50,15 @@ export default function Quadrinhos() {
     const handlePesquisar = () => {
         Api.get(`comics?titleStartsWith=${pesquisar}`)
         .then(response => {
-          const respostaPersonagens = response.data.data.results
-        const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
-          setQuadrinhos(personagensFiltrados)
+          const respostaQuadrinhos = response.data.data.results
+        const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
+          setQuadrinhos(quadrinhosFiltrados)
         })
     }
 
     
   return (
-    <View style={{ flex: 1 , backgroundColor: 'red' }}>
+    <View style={{ flex: 1 , backgroundColor: '#700f14' }}>
           <Text style={styles.text}>Quadrinhos</Text>
           <Searchbar style={styles.search} 
                  theme={{colors:{ primary: 'white'}}} 
@@ -57,21 +76,21 @@ export default function Quadrinhos() {
                  }}
                  />
       
-    <ScrollView>
-      <View style={styles.container}>
-      
-      <FlatList
+      <FlatList style={styles.container}
         data={quadrinhos}
         numColumns={3}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
+        onEndReached={loadMoreData}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
+        ListFooterComponent={loading  && <ActivityIndicator theme={{ colors: { primary: 'red' } }} style={{ backgroundColor: '#fff', marginBottom: 10}} animating={true} />}
         onEndReachedThreshold={0.1}
         renderItem={({item}) => (
         <Card 
         key={item.id}
         style={styles.card}
         mode="contained"
+        onPress={() => navigation.push('quadrinhos-detalhes', {id: item.id})}
       >
        <Card.Cover style={{width: 100, height: 150, borderRadius: -10}} source={{uri: item.thumbnail.path + '.' + item.thumbnail.extension}} />
         <Card.Content>
@@ -80,35 +99,33 @@ export default function Quadrinhos() {
        </Card>
         )}>
       </FlatList>
-    </View>
-  </ScrollView>
+    
 </View> 
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    justifyContent : 'space-evenly',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    padding: 5,
-    marginTop: 20
+  },
+  viewContainer:{
+    backgroundColor: '#fff',
+    marginEnd: 10,
   },
   text: {
-    fontSize: 20, 
+    fontFamily: 'Adventure',
+    fontSize: 30, 
     textAlign: 'center', 
     marginBottom: 10,
     marginTop: 50, 
     color: 'white'
   },
   card: {
-    marginBottom: 150, 
-    width: 100, 
-    height: 120, 
+    marginBottom: 120,
+    width: 100,
+    height: 100,
     margin: 5,
-    borderRadius: 100
+    borderRadius: -10,
   },
   search: {
     marginLeft: 10,

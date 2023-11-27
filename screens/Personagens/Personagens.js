@@ -1,9 +1,15 @@
-import { ScrollView, View, StyleSheet, FlatList } from 'react-native'
-import { Card, Searchbar, Text, ActivityIndicator } from 'react-native-paper'
+import {View, StyleSheet, FlatList, Text } from 'react-native'
+import { Card, Searchbar, ActivityIndicator } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
-import Api from '../services/Api'
+import Api from '../../services/Api'
+import { useFonts } from 'expo-font'
 
-export default function Personagens() {
+
+export default function Personagens({ navigation }) {
+
+  const [fontsLoaded] = useFonts({
+    'Adventure': require('../../assets/fonts/Adventure.otf'),
+  },)
 
   const [personagens, setPersonagens] = useState([])
   const [offset, setOffset] = useState(100)
@@ -37,11 +43,12 @@ export default function Personagens() {
         setPersonagens([...personagens, ...personagensFiltrados])
         setOffset(offset + 100)
         setLoading(false)
+
       })
   }
 
-
   const [pesquisar, setPesquisar] = useState('')
+  
   const handlePesquisar = () => {
     Api.get(`characters?nameStartsWith=${pesquisar}`)
       .then(response => {
@@ -50,10 +57,10 @@ export default function Personagens() {
         setPersonagens(personagensFiltrados)
       })
   }
-
+    
   return (
 
-    <View style={{ flex: 1, backgroundColor: 'red' }}>
+    <View style={{ flex: 1, backgroundColor: '#700f14' }}>
       <Text style={styles.text}>Personagens</Text>
       <Searchbar style={styles.search}
         theme={{ colors: { primary: 'white' } }}
@@ -64,7 +71,7 @@ export default function Personagens() {
         onChangeText={value => setPesquisar(value)}
         value={pesquisar}
         onIconPress={handlePesquisar}
-        onSubmitEditing={handlePesquisar}
+        onSubmitEditing={handlePesquisar} 
         onClearIconPress={() => {
           setPesquisar('');
           loadData();
@@ -78,19 +85,18 @@ export default function Personagens() {
             numColumns={3}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
-            
+            onEndReached={loadMoreData}
             columnWrapperStyle={{ justifyContent: 'space-evenly' }}
             onEndReachedThreshold={0.1}
-            onEndReached={loadMoreData}
-            ListFooterComponent={loading && <ActivityIndicator style={{ backgroundColor: '#fff'}} animating={true} />}
-            
+            ListFooterComponent={loading  && <ActivityIndicator theme={{ colors: { primary: 'red' } }} style={{ backgroundColor: '#fff', marginBottom: 10}} animating={true} />}
             renderItem={({ item }) => (
               <Card
                 key={item.id}
                 style={styles.card}
-                mode="coined"
+                mode="contained"
+                onPress={() => navigation.push('personagens-detalhes', {id: item.id})}
               >
-                <Card.Cover style={{ width: 100, height: 150, borderRadius: -10 }} source={{ uri: item.thumbnail.path + '.' + item.thumbnail.extension }} />
+                <Card.Cover style={{ width: 100, height: 150, borderRadius: -10 }} source={{ uri: item.thumbnail.path + '.' + item.thumbnail.extension }}/>
                 <Card.Content>
                   <Text style={{ marginTop: 5 }}>{item.name}</Text>
                 </Card.Content>
@@ -113,7 +119,8 @@ const styles = StyleSheet.create({
     marginEnd: 10,
   },
   text: {
-    fontSize: 20,
+    fontFamily: 'Adventure',
+    fontSize: 30,
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 50,

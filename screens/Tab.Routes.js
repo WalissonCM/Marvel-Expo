@@ -1,9 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Personagens from './Personagens';
-import Quadrinhos from './Quadrinhos';
-import Quiz from './Quiz';
-
+import PersonagensStack from './Personagens/PersonagensStack';
+import QuadrinhosStack from './Quadrinhos/QuadrinhosStack';
+import Quiz from './Quiz/Quiz';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +24,7 @@ export default function TabRoutes() {
 
             <Tab.Screen
                 name="Personagens"  
-                component={Personagens}
+                component={PersonagensStack}
                 options={{ 
                     tabBarIcon: () =>
                     (
@@ -35,7 +34,7 @@ export default function TabRoutes() {
             />
                 <Tab.Screen
                     name="Quadrinhos"
-                    component={Quadrinhos}
+                    component={QuadrinhosStack}
                     options={{
                         tabBarIcon: () =>  (
                             <MaterialCommunityIcons name="book-open-page-variant" color="white" size={26} />
@@ -52,7 +51,8 @@ export default function TabRoutes() {
                           ),
                     }}
                 />
-        
+
+
 
         </Tab.Navigator>
     )
