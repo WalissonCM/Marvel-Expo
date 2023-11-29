@@ -19,10 +19,14 @@ export default function Personagens({ navigation }) {
 
 
   useEffect(() => {
-    loadData()
+    setTimeout(() => {
+       loadData()
+  }, 1000)
   }, [])
+  
 
-  const loadData = () => {
+
+  const loadData = () => { 
     setLoading(true);
     Api.get('characters')
       .then(response => {
@@ -34,6 +38,9 @@ export default function Personagens({ navigation }) {
   }
 
   const loadMoreData = () => {
+    setTimeout (() => {
+      loadMoreData()
+    } , 1000)
     setLoading(true)
     Api.get('characters?offset=' + offset)
       .then(response => {
@@ -49,6 +56,9 @@ export default function Personagens({ navigation }) {
   const [pesquisar, setPesquisar] = useState('')
   
   const handlePesquisar = () => {
+    setTimeout(() => {
+      handlePesquisar()
+    } , 1000)
     setLoading(true)
     Api.get(`characters?nameStartsWith=${pesquisar}`)
       .then(response => {

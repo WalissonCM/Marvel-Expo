@@ -19,7 +19,9 @@ export default function Quadrinhos({ navigation }) {
     
     
     useEffect(() => {
-      loadData()
+      setTimeout(() => {
+         loadData()
+      }, 1000)
     }, [])
     
     const loadData = () => {
@@ -34,6 +36,9 @@ export default function Quadrinhos({ navigation }) {
     }
 
     const loadMoreData = () => {
+      setTimeout (() => {
+        loadMoreData()
+      } , 1000)
       setLoading(true)
       Api.get('comics?offset=' + offset)
         .then(response => {
@@ -48,6 +53,9 @@ export default function Quadrinhos({ navigation }) {
 
     const [pesquisar, setPesquisar] = useState('')
     const handlePesquisar = () => {
+      setTimeout(() => {
+        handlePesquisar()
+      } , 1000)
       setLoading(true)
         Api.get(`comics?titleStartsWith=${pesquisar}`)
         .then(response => {

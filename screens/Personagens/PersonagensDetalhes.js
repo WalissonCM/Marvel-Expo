@@ -11,19 +11,25 @@ export default function PersonagensDetalhes({route}) {
 
   useEffect(() => {
     const id = route.params.id;
-    Api.get(`characters/${id}`)
+    setTimeout(() => {
+       Api.get(`characters/${id}`)
       .then(response => {
         setDetails(response.data.data.results);
       })
-  }, [])
+      }, [])
+}, 1000)
+   
 
   useEffect(() => {
     const id = route.params.id;
-    Api.get(`characters/${id}/comics`)
+    setTimeout(() => {
+      Api.get(`characters/${id}/comics`)
       .then(response => {
         setComics(response.data.data.results);
       })
-  })
+    } , []) 
+}, 1000)
+   
   
   return (
     <ScrollView>

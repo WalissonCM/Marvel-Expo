@@ -11,19 +11,37 @@ export default function QuadrinhosDetalhes({route}) {
 
   useEffect(() => {
     const id = route.params.id
-    Api.get (`comics/${id}`)
+    setTimeout(() => {
+     Api.get (`comics/${id}`)
     .then(response => {
       setDetails(response.data.data.results)
     })
-  }, [])
+    }, [])  
+} , 1000)
+   
+
+  useEffect(() => {
+    const id = route.params.id
+    setTimeout(() => {
+    Api.get (`comics/${id}/characters`)
+    .then(response => {
+      setDetails(response.data.data.results)
+    })
+    }, [])  
+} , 1000)
+    
  
   
   
   return (
-    <View>
-      <Image source={{uri: quadrinhos.thumbnail.path + '.' + quadrinhos.thumbnail.extension}}/>
-      <Text style={styles.text}>{quadrinhos.name}dswdwad</Text>
-    </View>
+    <ScrollView>
+      {details.map(detail => (
+      <View style={{backgroundColor: 'black'}} key={detail.id}>
+        <Image style={{width: 360, height: 300}} source={{uri: detail.thumbnail.path + '.' + detail.thumbnail.extension}}/>
+        <Text style={{fontSize: 40, margin: 10, color: 'white'}}>{detail.title}</Text> 
+      </View>
+    ))}
+    </ScrollView>
   )
 }
 

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const Api = axios.create({
+
+    const Api = axios.create({
     baseURL: 'https://gateway.marvel.com/v1/public/',
     params: {
         limit: 3,
@@ -12,5 +13,6 @@ const Api = axios.create({
         'Content-Type': 'application/json'
     }
 })
+
    
 export default Api
