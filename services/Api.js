@@ -5,9 +5,9 @@ import axios from 'axios'
     baseURL: 'https://gateway.marvel.com/v1/public/',
     params: {
         limit: 3,
-        ts: 5,
-        apikey: 'db9301c7b33e95a510d7c3e03bd43f67',
-        hash: '1fc9f09d1bdd90f6b08fcf60869308ba',
+        ts: 1,
+        apikey: '96fd42dd1f3395eb9de325bb7c31bfd3',
+        hash: '6a5e92df1a4547d14e2ee63cc72c101c',
     },
     headers: {
         'Content-Type': 'application/json'

@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState} from 'react'
 import Api from '../../services/Api'
-import { ScrollView } from 'react-native-gesture-handler'
 import { Card } from 'react-native-paper'
 
 export default function PersonagensDetalhes({route}) {
@@ -11,28 +10,24 @@ export default function PersonagensDetalhes({route}) {
 
   useEffect(() => {
     const id = route.params.id;
-    setTimeout(() => {
        Api.get(`characters/${id}`)
       .then(response => {
         setDetails(response.data.data.results);
       })
-      }, [])
-}, 1000)
+}, [])
    
 
   useEffect(() => {
     const id = route.params.id;
-    setTimeout(() => {
       Api.get(`characters/${id}/comics`)
       .then(response => {
         setComics(response.data.data.results);
       })
-    } , []) 
-}, 1000)
+}, [])
    
   
   return (
-    <ScrollView>
+    <ScrollView style={{padding: 10}}>
       {details.map(detail => (
         <View style={{backgroundColor: 'black'}} key={detail.id}>
           <Image style={{width: 360, height: 300}} source={{uri: detail.thumbnail.path + '.' + detail.thumbnail.extension}}/>
@@ -54,7 +49,6 @@ export default function PersonagensDetalhes({route}) {
 }
 
 const styles = StyleSheet.create({
- 
   card  : {
     flexDirection: 'row',
     gap: 10,

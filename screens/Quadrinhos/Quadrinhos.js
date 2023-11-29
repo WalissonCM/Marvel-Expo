@@ -17,11 +17,8 @@ export default function Quadrinhos({ navigation }) {
     const img_default = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
     
     
-    
     useEffect(() => {
-      setTimeout(() => {
          loadData()
-      }, 1000)
     }, [])
     
     const loadData = () => {
@@ -32,13 +29,10 @@ export default function Quadrinhos({ navigation }) {
         const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setQuadrinhos(quadrinhosFiltrados)
            setLoading(false)
-        })
+        }, [])
     }
 
     const loadMoreData = () => {
-      setTimeout (() => {
-        loadMoreData()
-      } , 1000)
       setLoading(true)
       Api.get('comics?offset=' + offset)
         .then(response => {
@@ -47,15 +41,11 @@ export default function Quadrinhos({ navigation }) {
           setQuadrinhos([...quadrinhos, ...quadrinhosFiltrados])
           setOffset(offset + 100)
           setLoading(false)
-  
-        })
+        }, [])
     }
 
     const [pesquisar, setPesquisar] = useState('')
     const handlePesquisar = () => {
-      setTimeout(() => {
-        handlePesquisar()
-      } , 1000)
       setLoading(true)
         Api.get(`comics?titleStartsWith=${pesquisar}`)
         .then(response => {
@@ -63,7 +53,7 @@ export default function Quadrinhos({ navigation }) {
         const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
           setQuadrinhos(quadrinhosFiltrados)
           setLoading(false)
-        })
+        }, [])
     }
 
     

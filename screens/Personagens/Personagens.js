@@ -19,9 +19,7 @@ export default function Personagens({ navigation }) {
 
 
   useEffect(() => {
-    setTimeout(() => {
        loadData()
-  }, 1000)
   }, [])
   
 
@@ -34,13 +32,10 @@ export default function Personagens({ navigation }) {
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
         setLoading(false)
-      })
+      }, [])
   }
 
   const loadMoreData = () => {
-    setTimeout (() => {
-      loadMoreData()
-    } , 1000)
     setLoading(true)
     Api.get('characters?offset=' + offset)
       .then(response => {
@@ -49,16 +44,12 @@ export default function Personagens({ navigation }) {
         setPersonagens([...personagens, ...personagensFiltrados])
         setOffset(offset + 100)
         setLoading(false)
-
-      })
+      }, [])
   }
 
   const [pesquisar, setPesquisar] = useState('')
   
   const handlePesquisar = () => {
-    setTimeout(() => {
-      handlePesquisar()
-    } , 1000)
     setLoading(true)
     Api.get(`characters?nameStartsWith=${pesquisar}`)
       .then(response => {
@@ -66,7 +57,7 @@ export default function Personagens({ navigation }) {
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
         setLoading(false)
-      })
+      }, [])
   }
     
   return (
