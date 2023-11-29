@@ -1,5 +1,5 @@
-import {View, StyleSheet, FlatList, Text } from 'react-native'
-import { Card, Searchbar, ActivityIndicator } from 'react-native-paper'
+import {View, StyleSheet, FlatList, Text, Animated } from 'react-native'
+import { Card, Searchbar } from 'react-native-paper'
 import React, { useEffect, useState } from 'react'
 import Api from '../../services/Api'
 import { useFonts } from 'expo-font'
@@ -9,7 +9,7 @@ export default function Personagens({ navigation }) {
 
   const [fontsLoaded] = useFonts({
     'Adventure': require('../../assets/fonts/Adventure.otf'),
-  },)
+  },);
 
   const [personagens, setPersonagens] = useState([])
   const [offset, setOffset] = useState(100)
@@ -17,20 +17,19 @@ export default function Personagens({ navigation }) {
 
   const img_default = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
 
-  // loading = false
 
   useEffect(() => {
     loadData()
   }, [])
 
   const loadData = () => {
-    // setLoading(true)
+    setLoading(true);
     Api.get('characters')
       .then(response => {
         const respostaPersonagens = response.data.data.results
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
-        // setLoading(false)
+        setLoading(false)
       })
   }
 
@@ -50,11 +49,13 @@ export default function Personagens({ navigation }) {
   const [pesquisar, setPesquisar] = useState('')
   
   const handlePesquisar = () => {
+    setLoading(true)
     Api.get(`characters?nameStartsWith=${pesquisar}`)
       .then(response => {
         const respostaPersonagens = response.data.data.results
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
+        setLoading(false)
       })
   }
     
@@ -76,8 +77,13 @@ export default function Personagens({ navigation }) {
           setPesquisar('');
           loadData();
         }}
-
       />
+
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <Animated.Text style={[styles.loadingText]}>Loading...</Animated.Text>
+        </View>
+      )}
     
           
           <FlatList style={styles.container}
@@ -87,8 +93,8 @@ export default function Personagens({ navigation }) {
             keyExtractor={item => item.id}
             onEndReached={loadMoreData}
             columnWrapperStyle={{ justifyContent: 'space-evenly' }}
-            onEndReachedThreshold={0.1}
-            ListFooterComponent={loading  && <ActivityIndicator theme={{ colors: { primary: 'red' } }} style={{ backgroundColor: '#fff', marginBottom: 10}} animating={true} />}
+            onEndReachedThreshold={1}
+            ListFooterComponent={loading && <Text style={styles.loadingText}>Loading more...</Text>}
             renderItem={({ item }) => (
               <Card
                 key={item.id}
@@ -114,9 +120,16 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
   },
-  viewContainer:{
-    backgroundColor: '#fff',
-    marginEnd: 10,
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1,
   },
   text: {
     fontFamily: 'Adventure',
@@ -124,7 +137,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 50,
-    color: 'white'
+    color: 'white',
+  },
+  loadingText: {
+    fontFamily: 'Adventure',
+    fontSize: 40,
+    color: 'white',
   },
   card: {
     marginBottom: 120,
@@ -132,7 +150,6 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 5,
     borderRadius: -10,
-
   },
   search: {
     marginLeft: 10,
@@ -140,8 +157,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: 'black',
   }
-
-})
-
-
-
+});

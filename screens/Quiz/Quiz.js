@@ -44,7 +44,8 @@ export default function Quiz() {
         <>
         <Text style={styles.title}>Quiz</Text>
           <Text style={styles.pergunta}>{perguntas[perguntaAtual].pergunta}</Text>
-          {perguntas[perguntaAtual].opcoes.map((opcao, index) => (
+          <Image style={styles.imagem} source={perguntas[perguntaAtual].imagem}/>
+          {perguntas[perguntaAtual].opcoes.map((opcao, index) => (  
             <TouchableOpacity
               key={index}
               style={styles.opcao}
@@ -105,5 +106,11 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 5,
+
   },
+  imagem: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  }
 })

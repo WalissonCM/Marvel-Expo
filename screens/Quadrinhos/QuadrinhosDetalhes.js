@@ -1,20 +1,22 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useEffect, useState} from 'react'
 import Api from '../../services/Api'
+import { ScrollView } from 'react-native-gesture-handler'
+import { Card } from 'react-native-paper'
 
 
 export default function QuadrinhosDetalhes({route}) {
 
-  const [quadrinhos, setQuadrinhos] = useState({})
+  const [details, setDetails] = useState([])
 
   useEffect(() => {
     const id = route.params.id
     Api.get (`comics/${id}`)
     .then(response => {
-      setQuadrinhos(response.data.data.results)
+      setDetails(response.data.data.results)
     })
   }, [])
-  console.log(quadrinhos)
+ 
   
   
   return (
