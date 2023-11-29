@@ -32,7 +32,7 @@ export default function Personagens({ navigation }) {
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
         setLoading(false)
-      }, [])
+      })
   }
 
   const loadMoreData = () => {
@@ -44,7 +44,7 @@ export default function Personagens({ navigation }) {
         setPersonagens([...personagens, ...personagensFiltrados])
         setOffset(offset + 100)
         setLoading(false)
-      }, [])
+      })
   }
 
   const [pesquisar, setPesquisar] = useState('')
@@ -57,7 +57,7 @@ export default function Personagens({ navigation }) {
         const personagensFiltrados = respostaPersonagens.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setPersonagens(personagensFiltrados)
         setLoading(false)
-      }, [])
+      })
   }
     
   return (
@@ -94,7 +94,7 @@ export default function Personagens({ navigation }) {
             keyExtractor={item => item.id}
             onEndReached={loadMoreData}
             columnWrapperStyle={{ justifyContent: 'space-evenly' }}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.1}
             ListFooterComponent={loading && <Text style={styles.loadingText}>Loading more...</Text>}
             renderItem={({ item }) => (
               <Card

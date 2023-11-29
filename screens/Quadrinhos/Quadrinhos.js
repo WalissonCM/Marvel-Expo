@@ -29,7 +29,7 @@ export default function Quadrinhos({ navigation }) {
         const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
         setQuadrinhos(quadrinhosFiltrados)
            setLoading(false)
-        }, [])
+        })
     }
 
     const loadMoreData = () => {
@@ -41,7 +41,7 @@ export default function Quadrinhos({ navigation }) {
           setQuadrinhos([...quadrinhos, ...quadrinhosFiltrados])
           setOffset(offset + 100)
           setLoading(false)
-        }, [])
+        })
     }
 
     const [pesquisar, setPesquisar] = useState('')
@@ -53,7 +53,7 @@ export default function Quadrinhos({ navigation }) {
         const quadrinhosFiltrados = respostaQuadrinhos.filter(p => !(p.thumbnail.path + '.' + p.thumbnail.extension == img_default))
           setQuadrinhos(quadrinhosFiltrados)
           setLoading(false)
-        }, [])
+        })
     }
 
     
@@ -90,7 +90,7 @@ export default function Quadrinhos({ navigation }) {
         onEndReached={loadMoreData}
         columnWrapperStyle={{justifyContent: 'space-evenly'}}
         ListFooterComponent={loading && <Text style={styles.loadingText}>Loading more...</Text>}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.1}
         renderItem={({item}) => (
         <Card 
         key={item.id}
