@@ -42,7 +42,7 @@ export default function QuadrinhosDetalhes({route}) {
         <Card style={styles.card} key={event.id} >
           <Card.Cover style={{width: 100, height: 150, borderRadius: -10}} source={{uri: event.thumbnail.path + '.' + event.thumbnail.extension}}/>
           <Card.Content>
-            <Text style={{color:'white'}} >{event.title}</Text> 
+            <Text style={{color:'white'}} >{event.fullName}</Text> 
           </Card.Content>
         </Card> 
      ))}
